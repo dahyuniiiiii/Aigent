@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+}
+
+.logo{
+    padding-bottom: 100px;
+}
+
+.webcam{
+    width: 450px;
+    height: 350px;
+    border: 3px solid #000;
+}
+
+.videobox{
+    display: flex;
+    justify-content: center;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    gap: 30px;
+}
+
+.button img{
+    width: 50px;
+    height: 50px;
+}
+.logout{
+    margin-left: 300px;
+}
+
+.join{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.join button{
+    width: 200px;
+    height: 80px;
+    font-size: 40px;
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    border: none;
+}
+
+
+

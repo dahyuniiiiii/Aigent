@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before-Meeting</title>
+    <link rel="stylesheet" href="./css/before.css">
+</head>
+<body>
+    <header class="logo"></header>
+        <div class="videobox">
+            <video id="webcam" class="webcam" autoplay></video>
+        </div>
+    <section class="button">
+        <img src="./images/Microphone.png">
+        <img src="./images/Video Call.png">
+        <img class="logout" src="./images/Logout.png">
+    </section>
+    <section class="join">
+        <a href="ing.html"><button>회의 참가</button></a>
+    </section>
+    <script>
+    const video = document.getElementById('webcam');
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then((stream) => {
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        console.error("웹캠 접근 오류:", err);
+      });
+  </script>
+</body>
+</html>
