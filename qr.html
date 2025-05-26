@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/qr.css">
+</head>
+<body>
+    <div class="qrBox">
+        <span class="info">
+            OOO님, 회의에 참가 할려면<br/>
+            모바일 신분증 APP을 통해<br/>
+            QR로 본인 인증을 하세요
+        </span>
+        <img>
+        <span class="id" id="count">남은시간 : 0분 00초</span>
+    </div>
+
+<script>
+    const count = document.getElementById("count");
+    let time = 60; 
+
+    count.innerHTML = `남은시간 : 0분 ${time}초`;
+
+    const timer = setInterval(() => {
+        time--;
+        count.innerHTML = `남은시간 : 0분 ${time}초`;
+
+        if (time <= 0) {
+            clearInterval(timer);
+            count.innerHTML = "재접속하세요!!";
+        }
+    }, 1000);
+</script>
+</body>
+</html>
