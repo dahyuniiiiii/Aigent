@@ -1,34 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Before-Meeting</title>
-    <link rel="stylesheet" href="./css/before.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Before-Meeting</title>
+  <link rel="stylesheet" href="./css/before.css" />
 </head>
 <body>
-    <header class="logo"></header>
-        <div class="videobox">
-            <video id="webcam" class="webcam" autoplay></video>
-        </div>
-    <section class="button">
-        <img src="./images/Microphone.png">
-        <img src="./images/Video Call.png">
-        <img class="logout" src="./images/Logout.png">
-    </section>
-    <section class="join">
-        <a href="ing.html"><button>회의 참가</button></a>
-    </section>
-    <script>
-    const video = document.getElementById('webcam');
+  <div class="rec">● REC</div>
 
+  <header class="logo"></header>
+
+  <div class="top-container">
+    <div class="small-box"><span class="name">오다현</span></div>
+    <div class="small-box"><span class="name">오다현</span></div>
+    <div class="small-box"><span class="name">오다현</span></div>
+    <div class="small-box"><span class="name">오다현</span></div>
+    <div class="small-box"><span class="name">오다현</span></div>
+  </div>
+
+  <div class="videobox main-box">
+    <video id="webcam" class="webcam" autoplay muted></video>
+    <span class="main-name">오다현</span>
+  </div>
+
+  <section class="replacement-image">
+    <img src="./images/Record.png" />
+  </section>
+
+  <footer class="bottom-bar">
+    <div class="bottom-left">
+      <img class="toggle-img" src="./images/Vector.png">
+      <img class="toggle-img" src="./images/Microphone.png">
+      <img class="toggle-img" src="./images/Video Call.png">
+    </div>
+    <div class="bottom-center">
+      <img src="./images/Group 8.png" alt="">
+      <img src="./images/Group 9.png" alt="">
+      <img src="./images/Group 10.png" alt="">
+      <img src="./images/Group 11.png" alt="">
+      <img src="./images/Vector (1).png" alt="">
+      <img src="./images/Vector (2).png" alt="">
+      <img src="./images/Group 12.png" alt="">
+      <img src="./images/Vector (3).png" alt="">
+    </div>
+    <div class="bottom-right">
+      <img id="menu-trigger" src="./images/Vector (4).png" />
+    </div>
+  </footer>
+
+  <div class="small-popup" id="popup-menu">
+    <img class="menu-option" src="./images/Group 13.png" />
+    <img class="menu-option" src="./images/Group 14.png" />
+  </div>
+
+  <div class="center-modal" id="center-box">
+    <img src="./images/Vector (5).png"/>
+    <p>회의 종료 중...<br>녹음된 회의 자동 요약 중입니다. 끄지마세요..</p>
+  </div>
+
+  <script>
+    // 웹캠 실행
+    const video = document.getElementById('webcam');
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      .then((stream) => {
-        video.srcObject = stream;
-      })
-      .catch((err) => {
-        console.error("웹캠 접근 오류:", err);
+      .then(stream => video.srcObject = stream)
+      .catch(err => console.error("웹캠 접근 오류:", err));
+
+    // 이미지 토글 기능
+    const toggleImages = document.querySelectorAll('.toggle-img');
+    toggleImages.forEach(img => {
+      const originalSrc = img.src;
+      const altSrc = originalSrc.replace(/\.png$/, '-alt.png');
+      let toggled = false;
+      img.addEventListener('click', () => {
+        img.src = toggled ? originalSrc : altSrc;
+        toggled = !toggled;
       });
+    });
+
+    // 메뉴 버튼 → 팝업 메뉴 열기
+    const menuTrigger = document.getElementById('menu-trigger');
+    const popupMenu = document.getElementById('popup-menu');
+    const centerBox = document.getElementById('center-box');
+
+    menuTrigger.addEventListener('click', () => {
+      popupMenu.style.display = popupMenu.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // 팝업 내 버튼 클릭 → 팝업 닫고 중앙 박스 표시
+    document.querySelectorAll('.menu-option').forEach(option => {
+      option.addEventListener('click', () => {
+        popupMenu.style.display = 'none';
+        centerBox.style.display = 'flex';
+      });
+    });
   </script>
 </body>
 </html>
