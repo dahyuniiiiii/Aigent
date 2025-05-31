@@ -89,14 +89,14 @@ uvicorn main:app --reload --port 8000
 ```bash
 curl -X POST http://localhost:8000/rag_answer \
  -H "Content-Type: application/json" \
- -d '{"question": "6월 1일 회의에서 황효동이 맡은 일은?"}'
+ -d '{"question": "6월 1일 회의 내용은?"}'
 ```
 
 ### ✅ 응답 예시
 
 ```json
 {
-  "answer": "황효동님은 자동 회의 등록 백엔드 구축을 맡으셨습니다."
+  "answer": "회의 내용은 프론트연동 테스트, 백엔드 구축있습니다."
 }
 ```
 
