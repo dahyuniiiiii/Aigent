@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.left {
+    padding-top: 20px;
+    width: 282px;
+    height: 1024px;
+    background-color: #89C4CB;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.left img {
+    margin: 0;
+    padding-right: 7px;
+}
+
+.left div {
+    padding-left: 15px;
+}
+
+.folder span {
+    padding-right: 150px;
+}
+
+.folder button {
+    background: none;
+    border: none;
+}
+
+.folder-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.left span {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 750px;
+    height: 810px;
+    background-color: #d9d9d9;
+    border-radius: 30px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.chat-input-box {
+    width: 700px;
+    height: 114px;
+    background-color: #8E9BBE;
+    border-radius: 30px;
+    padding: 16px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-top input{
+    margin-bottom: 12px;
+    background: none;
+    border: none;
+    width: 700px;
+    height: 80px;
+    font-size: 20px;
+}
+
+.input-top input::placeholder{
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.input-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-icons{
+    display: flex;
+    gap: 20px;
+}
+
+.right-icons{
+    display: flex;
+    gap: 10px;
+}
+
+.mic{
+    padding-top: 5px;
+    width: 15px;
+    height: 19px;
+}
+
+.record{
+    width: 30px;
+    height: 30px;
+}
+
+.bold{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.light{
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    gap: 80px;
+}
+
+.text-box{
+    padding-bottom: 20px;
+    padding-top: 150px;
+    padding-left: 50px;
+}
+
+
+
+
+
