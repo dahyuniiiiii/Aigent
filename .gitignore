@@ -1,5 +1,1 @@
 .env
-static/
-dev_tools/
-__pycache__/
-.DS_Store

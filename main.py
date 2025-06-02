@@ -1,35 +1,50 @@
-### 📄 main.py
-from fastapi import FastAPI, Request
-import threading
-import time
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import os
-import json
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+import re
+import glob
+from dotenv import load_dotenv
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 import chromadb
-import re
-from prompt_builder import build_prompt
 import google.generativeai as genai
-from dotenv import load_dotenv
+from prompt_builder import build_prompt
 
+# ✅ 환경변수 로드 및 Gemini 키 설정
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 app = FastAPI()
+
+# ✅ CORS 허용 (Live Server 대응)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ✅ 디렉토리 설정
 WATCH_DIR = "./meeting_data"
 
-# ✅ 영구 저장소를 사용하는 PersistentClient
+# ✅ ChromaDB 설정
 client = chromadb.PersistentClient(path="./vector_store")
 embedding_func = SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
 collection = client.get_or_create_collection(name="meetings", embedding_function=embedding_func)
 
+# ✅ 파일명에서 날짜 추출
 def extract_datetime_from_filename(filename):
     match = re.search(r"(\d{4}-\d{2}-\d{2}_\d{2}-\d{2})", filename)
     return match.group(1) if match else None
 
+# ✅ 회의요약 텍스트 파일을 벡터화하는 함수
 def build_meeting_data_and_add(file_path):
-    print(f"📁 새 파일 감지됨: {file_path}")
+    print(f"📁 벡터화 처리 중: {file_path}")
     dt_str = extract_datetime_from_filename(file_path)
     date_only = dt_str.split("_")[0] if dt_str else "unknown"
 
@@ -46,57 +61,48 @@ def build_meeting_data_and_add(file_path):
                 "document": doc
             })
 
-    # ChromaDB에 추가
-    collection.add(
-        documents=[d["document"] for d in docs],
-        metadatas=[{"date": d["date"]} for d in docs],
-        ids=[d["id"] for d in docs]
-    )
-    print(f"✅ {len(docs)}개 문서가 벡터로 추가됨.")
+    if docs:
+        collection.add(
+            documents=[d["document"] for d in docs],
+            metadatas=[{"date": d["date"]} for d in docs],
+            ids=[d["id"] for d in docs]
+        )
+        print(f"✅ {len(docs)}개 문서 벡터화 완료")
+    else:
+        print("⚠️ 유효한 문장이 없어 벡터화하지 않음")
 
-class TxtHandler(FileSystemEventHandler):
-    def on_created(self, event):
-        if not event.is_directory and event.src_path.endswith("_회의요약.txt"):
-            time.sleep(1)
-            build_meeting_data_and_add(event.src_path)
-
-def start_watchdog():
-    observer = Observer()
-    observer.schedule(TxtHandler(), path=WATCH_DIR, recursive=False)
-    observer.start()
-    print(f"👀 회의요약.txt 감시 중: {WATCH_DIR}")
-
-@app.on_event("startup")
-def startup_event():
-    threading.Thread(target=start_watchdog, daemon=True).start()
-
+# ✅ 질문 → 벡터화 + 검색 + Gemini 호출
 @app.post("/rag_answer")
 def rag_answer(req: dict):
-    question = req["question"]
-    results = collection.query(query_texts=[question], n_results=4)
-    print("🔍 쿼리 결과:", results)
-    documents = results["documents"][0] if results["documents"] else []
-    prompt = build_prompt(documents, question)
-    model = genai.GenerativeModel("gemini-1.5-pro")
+    question = req.get("question", "")
+    print("📥 질문 수신:", question)
+
+    # ✅ 모든 회의 요약 파일 벡터화
+    files = glob.glob(os.path.join(WATCH_DIR, "*_회의요약.txt"))
+    print(f"📂 벡터화 대상 파일: {len(files)}개")
+
+    for path in files:
+        build_meeting_data_and_add(path)
+
     try:
+        results = collection.query(query_texts=[question], n_results=4)
+        print("🔍 쿼리 결과:", results)
+        documents = results.get("documents", [[]])[0]
+        prompt = build_prompt(documents, question)
+        model = genai.GenerativeModel("gemini-1.5-pro")
         response = model.generate_content(prompt)
         return {"answer": response.text}
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print("❌ Gemini 호출 실패:", e)
         return {
-            "answer": "⚠️ 현재 AI 응답량이 초과되었습니다. 잠시 후 다시 시도해주세요."
+            "answer": "⚠️ 현재 AI 응답량이 초과되었거나 오류가 발생했습니다."
         }
 
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-@app.get("/")
-def serve_html():
-    return FileResponse("static/index.html")
+# ✅ 벡터 확인용 API
 @app.get("/vector_check")
 def vector_check():
-    # meetings 컬렉션 전체 데이터 조회
     results = collection.get()
     ids = results.get("ids", [])
     docs = results.get("documents", [])
@@ -111,3 +117,10 @@ def vector_check():
         for i, d, m in zip(ids, docs, metas)
     ]
     return {"count": len(combined), "documents": combined}
+
+# ✅ 정적 HTML 제공
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def serve_html():
+    return FileResponse("static/index.html")
