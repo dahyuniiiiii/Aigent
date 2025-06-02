@@ -1,71 +1,119 @@
-<!DOCTYspanE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewspanort" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="./css/index.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
 
-    <body>
-        <section class="left">
-            <div class="logo">
-                <img class="logo-image" src="./images/Aigent.png"><br>
-            </div>
-            <div class="home">
-                <img src="./images/home.png"> <span>홈</span><br><br>
-                <img src="./images/chat.png"><span>AI 채팅</span><br><br>
-                <img src="./images/note.png"><span>AI 기록 관리</span><br><br>
-            </div>
-            <div class="board">
-                <span>보드</span><br><br>
-                <img src="./images/all.png"><span>전체 받아쓰기</span><br><br>
-                <img src="./images/star.png"><span>중요 받아쓰기</span><br><br>
-                <img src="./images/incomplete.png"><span>미완료 녹음</span><br><br>
-                <img src="./images/PDF.png"><span>PDF</span><br><br>
-            </div>
-            <div class="folder">
-                <span>폴더</span>
-                <button><img src="./images/plus.png"></button>
-            </div>
-            <div>
-                <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
-                <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
-                <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
-                <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
-            </div>
-            <div>
-                <img src="./images/bin.png"><span>휴지통</span>
-            </div>
-        </section>
+<body>
+    <section class="left">
+        <div class="logo">
+            <img class="logo-image" src="./images/Aigent.png"><br>
+        </div>
+        <div class="home">
+            <img src="./images/home.png"> <span>홈</span><br><br>
+            <img src="./images/chat.png"><span>AI 채팅</span><br><br>
+            <img src="./images/note.png"><span>AI 기록 관리</span><br><br>
+        </div>
+        <div class="board">
+            <span>보드</span><br><br>
+            <img src="./images/all.png"><span>전체 받아쓰기</span><br><br>
+            <img src="./images/star.png"><span>중요 받아쓰기</span><br><br>
+            <img src="./images/incomplete.png"><span>미완료 녹음</span><br><br>
+            <img src="./images/PDF.png"><span>PDF</span><br><br>
+        </div>
+        <div class="folder">
+            <span>폴더</span>
+            <button><img src="./images/plus.png"></button>
+        </div>
+        <div>
+            <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
+            <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
+            <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
+            <img class="folder-icon" src="./images/folder.png"><span>5.19 1교시 수업</span><br><br>
+        </div>
+        <div>
+            <img src="./images/bin.png"><span>휴지통</span>
+        </div>
+    </section>
 
-        <section class="middle">
-            <div class="chat-input-box">
-                <div class="input-top"><input type="text" placeholder="무엇이든 물어보세요."></div>
-                <div class="input-bottom">
-                    <div class="left-icons">
-                        <img src="./images/plus2.png">
-                        <img src="./images/tools.png">
-                    </div>
-                    <div class="right-icons">
-                        <img class="mic" src="./images/mic.png">
-                        <img class="record" src="./images/recording.png">
-                    </div>
+    <section class="middle">
+        <div class="chat-input-box">
+            <div class="input-top"><input type="text" placeholder="무엇이든 물어보세요."></div>
+            <div class="input-bottom">
+                <div class="left-icons">
+                    <img src="./images/plus2.png">
+                    <img src="./images/tools.png">
+                </div>
+                <div class="right-icons">
+                    <img class="mic" src="./images/mic.png">
+                    <img class="record" src="./images/recording.png">
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="right">
-            <div class="text-box">
-                <span class="bold">회의</span><span class="light">Aigent에서 회의하고 내용을 요약하세요</span>
-            </div>
-            <div class="buttons">
-                <img src="./images/newmeeting.png">
-                <img src="./images/join.png">
-                <img src="./images/reservation.png">
-            </div>
-        </section>
-    </body>
+    <section class="right">
+        <div class="text-box">
+            <span class="bold">회의</span><span class="light">Aigent에서 회의하고 내용을 요약하세요</span>
+        </div>
+        <div class="buttons">
+            <img src="./images/newmeeting.png">
+            <button onclick="startModal()"><img src="./images/join.png"></button>
+            <img src="./images/reservation.png">
+        </div>
+    </section>
 
-    </html>
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-modal-content">
+            <span class="qr-close" onclick="closeModal()">&times;</span>
+            <div class="qrBox">
+                <span class="info">
+                    OOO님, 회의에 참가 하려면<br/>
+                    모바일 신분증 APP을 통해<br/>
+                    QR로 본인 인증을 하세요
+                </span>
+                <img src="./images/qrcode.png" alt="QR 코드">
+                <span class="id" id="count">남은시간 : 0분 60초</span>
+                <a href="./before.html"><button>인증완료</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("qrModal");
+        const count = document.getElementById("count");
+        let timer;
+
+        function startModal() {
+            modal.style.display = "flex";
+            let time = 60;
+            count.innerHTML = `남은시간 : 0분 ${time}초`;
+            timer = setInterval(() => {
+                time--;
+                count.innerHTML = `남은시간 : 0분 ${time}초`;
+                if (time <= 0) {
+                    clearInterval(timer);
+                    count.innerHTML = "재접속하세요!!";
+                }
+            }, 1000);
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            clearInterval(timer);
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+
+</html>
