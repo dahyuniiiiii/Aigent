@@ -52,7 +52,7 @@ body {
     height: 810px;
     background-color: #d9d9d9;
     border-radius: 30px;
-    margin-left: 50px;
+    margin-left: 100px;
     margin-top: 50px;
 }
 
@@ -135,7 +135,64 @@ body {
     padding-left: 50px;
 }
 
+body{
+    display: flex;
+    align-items: center;
+}
+.qrBox{
+    display: flex;
+    align-items: center;
+    width: 850px;
+    height: 580px;
+    background-color: #89C4CB;
+    flex-direction: column;
+    gap:15px;
+    padding: 30px;
+    box-sizing: border-box;
+}
+.info{
+    font-weight:bold;
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    line-height: 1.5;
+}
+.qrBox img{
+    display: flex;
+    background-color: white;
+    width: 250px;
+    height: 250px;
+}
+.id{
+    font-weight:bold;
+    font-size: 25px;
+}
 
+.qr-modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    padding-top: 100px;
+}
 
+.qr-modal-content {
+    position: relative;
+}
+
+.qr-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
 
 
